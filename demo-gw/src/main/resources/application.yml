@@ -1,0 +1,42 @@
+
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.jks
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: gateway
+
+    # trust-store: classpath:cacerts.jks
+    # trust-store-password: 123456
+    # trust-store-type: JKS
+    
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          # useInsecureTrustManager: true
+          trustedX509Certificates:
+          - file:/Users/donheekang/workspace/tmp/1103/demo-2way-ssl/demo-ms/ms.crt
+          - file:/Users/donheekang/Downloads/reqres.cer
+
+          key-store: classpath:keystore.jks
+          key-store-password: 123456
+          key-store-type: PKCS12
+
+      routes:
+      - id: r1
+        uri: https://reqres.in
+        predicates: 
+        - Path=/users/1
+        filters:
+        - SetPath=/api/users/1
+
+      - id: r2
+        uri: https://ms:8443
+        predicates: 
+        - Path=/time
+        filters:
+        - SetPath=/now

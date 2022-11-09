@@ -1,0 +1,14 @@
+
+server:
+    port: 8443
+    ssl:
+        enabled: true
+        key-store: classpath:keystore.jks
+        key-store-password: 123456
+        key-store-type: PKCS12
+        key-alias: ms
+
+        client-auth: NEED
+        trust-store: classpath:cacerts.jks
+        trust-store-password: 123456
+        trust-store-type: JKS
